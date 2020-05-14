@@ -7,7 +7,8 @@ Criar um *SPA (Single Page Application)* de uma lista de contatos em **React** c
 -  Busca de um contato aplicando filtro em **tempo real**.
 -  Aplicar filtros de ordenação por *Nome*, *País*, *Empresa*, *Departamento* e *Data de Admissão*.
 
-**Preview:**
+> **Preview:**
+>[SPA Contacts Codenation](https://challenge-contacts-codenation.netlify.app/)
 
-[Contacts SPA](https://vimeo.com/414861574/cb0d443103)
+![preview](https://user-images.githubusercontent.com/47192417/81880254-6068c000-9563-11ea-9040-0acd240fe0df.png)
 
