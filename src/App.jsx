@@ -12,23 +12,18 @@ Filters.propTypes = {
   setStateApp: PropTypes.func.isRequired,
 };
 
-// To-do
-// Loading da pagina no carregamento da api - exemplo rick morty
-// filtro ao digitar https://www.w3schools.com/howto/howto_js_autocomplete.asp
-//isolar metodos utils - pesquisar e ordenação
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       contacts: [],
+      contactsList: []
     };
   }
 
   updateState = (value) => {
     this.setState({
-      contacts: value,
+      contactsList: value,
     });
   }
 
@@ -41,19 +36,22 @@ class App extends React.Component {
     const response = await fetch(url);
     const data = await response.json();
 
-    this.updateState(data);
+    this.setState({
+      contacts: data,
+      contactsList: data,
+    });
   }
 
   render() {
     return (
-      <React.Fragment>
+      <div className="app" data-testid="app">
         <Topbar />
         <Filters
           contactsList={this.state.contacts}
           setStateApp={this.updateState}
         />
-        <Contacts data={this.state.contacts} />
-      </React.Fragment>
+        <Contacts data={this.state.contactsList} />
+      </div>
     );
   }
 }

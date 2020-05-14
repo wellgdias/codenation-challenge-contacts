@@ -1,32 +1,26 @@
 import React from "react";
+import { format } from 'date-fns';
+
+import "./Contact.scss"
 
 
 class Contact extends React.Component {
   render() {
 
-    const {
-      avatar,
-      name,
-      phone,
-      country,
-      admissionDate,
-      company,
-      department,
-    } = this.props.data; 
-
-    const data = new Date(admissionDate).toLocaleDateString('pt-br');    
+    const {data} = this.props;     
+    const admissionDate = new Date(data.admissionDate);
 
     return (     
       <article className="contact" data-testid="contact">
         <span data-testid="contact-avatar" className="contact__avatar">
-          <img src={avatar} alt={name} />
+          <img src={data.avatar} alt={data.name} />
         </span>
-        <span data-testid="contact-name" className="contact__data">{name}</span>
-        <span data-testid="contact-phone" className="contact__data">{phone}</span>
-        <span data-testid="contact-country" className="contact__data">{country}</span>
-        <span data-testid="contact-date" className="contact__data">{data}</span>
-        <span data-testid="contact-company" className="contact__data">{company}</span>
-        <span data-testid="contact-department" className="contact__data">{department}</span>          
+        <span data-testid="contact-name" className="contact__data">{data.name}</span>
+        <span data-testid="contact-phone" className="contact__data">{data.phone}</span>
+        <span data-testid="contact-country" className="contact__data">{data.country}</span>
+        <span data-testid="contact-date" className="contact__data"> {format(admissionDate, "dd/MM/yyyy")}</span>
+        <span data-testid="contact-company" className="contact__data">{data.company}</span>
+        <span data-testid="contact-department" className="contact__data">{data.department}</span>          
       </article>    
     );
   }

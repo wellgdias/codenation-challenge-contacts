@@ -1,6 +1,8 @@
 import React from "react";
 import Contact from "./Contact";
 
+import "./Contacts.css"
+
 class Contacts extends React.Component {
   render() {
     const contacts = this.props.data;

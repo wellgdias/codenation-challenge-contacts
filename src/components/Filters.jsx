@@ -2,6 +2,10 @@ import React from "react";
 
 import Button from "./Button";
 
+import compareValues from "../utils/compareValues";
+
+import "./Filters.scss";
+
 class Filters extends React.Component {
   constructor(props) {
     super(props);
@@ -11,16 +15,23 @@ class Filters extends React.Component {
     };
   }
 
+  handleOnChangeFilter(event) {
+    event.preventDefault();
+    const contacts = this.props.contactsList;
+    const filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(event.target.value.toLowerCase()));    
+    this.props.setStateApp(filteredContacts);
+  }
+
   handleOnClickSort(event, sortBy) {
     event.preventDefault();
 
     let order = "asc";
     if (this.state.selected === sortBy) {
       order = "desc" === this.state.sorted ? "asc" : "desc";
-    } 
+    }
 
     const contacts = this.props.contactsList;
-    contacts.sort(this.compareValues(sortBy, order));
+    contacts.sort(compareValues(sortBy, order));
     this.props.setStateApp(contacts);
 
     this.setState({
@@ -29,26 +40,7 @@ class Filters extends React.Component {
     });
   }
 
-  compareValues(key, order = "asc") {
-    return function innerSort(a, b) {
-      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-        return 0;
-      }
-
-      const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
-      const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
-
-      let comparison = 0;
-      if (varA > varB) {
-        comparison = 1;
-      } else if (varA < varB) {
-        comparison = -1;
-      }
-      return order === "desc" ? comparison * -1 : comparison;
-    };
-  }
-
-  isActive(option) {
+  isSelected(option) {
     return option === this.state.selected
       ? "filters__item is-selected"
       : "filters__item";
@@ -58,9 +50,7 @@ class Filters extends React.Component {
     let icon = "fas fa-sort-down";
     if (option === this.state.selected) {
       icon =
-        this.state.sorted === "asc"
-          ? "fas fa-sort-down"
-          : "fas fa-sort-up";
+        this.state.sorted === "asc" ? "fas fa-sort-down" : "fas fa-sort-up";
     }
     return icon;
   }
@@ -74,35 +64,36 @@ class Filters extends React.Component {
               type="text"
               className="filters__search__input"
               placeholder="Pesquisar"
+              onChange={(event) => this.handleOnChangeFilter(event)}
             />
 
             <Button
               className="filters__search__icon"
-              classNameI="fa fa-search"
+              classNameIcon="fa fa-search"              
             />
           </div>
 
           <Button
             content="Nome"
-            className={this.isActive("name")}
+            className={this.isSelected("name")}
             classNameIcon={this.isSort("name")}
             handleOnClick={(event) => this.handleOnClickSort(event, "name")}
           />
           <Button
             content="País"
-            className={this.isActive("country")}
+            className={this.isSelected("country")}
             classNameIcon={this.isSort("country")}
             handleOnClick={(event) => this.handleOnClickSort(event, "country")}
           />
           <Button
             content="Empresa"
-            className={this.isActive("company")}
+            className={this.isSelected("company")}
             classNameIcon={this.isSort("company")}
             handleOnClick={(event) => this.handleOnClickSort(event, "company")}
           />
           <Button
             content="Departamento"
-            className={this.isActive("department")}
+            className={this.isSelected("department")}
             classNameIcon={this.isSort("department")}
             handleOnClick={(event) =>
               this.handleOnClickSort(event, "department")
@@ -110,7 +101,7 @@ class Filters extends React.Component {
           />
           <Button
             content="Data de admissão"
-            className={this.isActive("admissionDate")}
+            className={this.isSelected("admissionDate")}
             classNameIcon={this.isSort("admissionDate")}
             handleOnClick={(event) =>
               this.handleOnClickSort(event, "admissionDate")
